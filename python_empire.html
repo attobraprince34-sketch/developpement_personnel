@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PYTHON EMPIRE — Deviens Inarrêtable</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a;
+  --white: #f5f2eb;
+  --accent: #c8f135;
+  --accent2: #ff6b35;
+  --accent3: #35c8f1;
+  --muted: #3a3a3a;
+  --card: #141414;
+  --border: #2a2a2a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.15s ease;
+  opacity: 0.5;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+.nav-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--white);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.2s;
+  opacity: 0.7;
+}
+.nav-links a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 40px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,241,53,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,241,53,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(52px, 8vw, 110px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero h1 .line2 { color: var(--accent); display: block; }
+.hero h1 .line3 { color: var(--accent2); display: block; }
+.hero-sub {
+  margin-top: 32px;
+  font-size: 18px;
+  color: #888;
+  max-width: 560px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-cta {
+  margin-top: 48px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: none;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,241,53,0.3); }
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px 32px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: none;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--white); }
+
+.hero-stats {
+  position: absolute;
+  bottom: 60px; right: 40px;
+  display: flex;
+  gap: 40px;
+}
+.stat { text-align: right; }
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px;
+  color: #555;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* SECTIONS */
+section {
+  padding: 100px 40px;
+  border-top: 1px solid var(--border);
+}
+.section-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 60px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 48px;
+}
+.section-title span { color: var(--accent); }
+
+/* ROUTINE SECTION */
+.routine-timeline {
+  display: grid;
+  gap: 0;
+  max-width: 900px;
+}
+.routine-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  position: relative;
+  padding-bottom: 32px;
+}
+.routine-item::before {
+  content: '';
+  position: absolute;
+  left: 39px;
+  top: 40px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.routine-item:last-child::before { display: none; }
+.routine-time {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  padding-top: 8px;
+  text-align: right;
+}
+.routine-dot {
+  position: absolute;
+  left: 33px;
+  top: 8px;
+  width: 13px; height: 13px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 3px solid var(--black);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.routine-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  transition: border-color 0.2s;
+}
+.routine-card:hover { border-color: var(--accent); }
+.routine-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--white);
+}
+.routine-card p { font-size: 13px; color: #888; line-height: 1.6; }
+.routine-card .tip {
+  margin-top: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--accent2);
+}
+
+/* PYTHON SECTION */
+.python-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.py-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.py-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.py-card:hover::before { transform: scaleX(1); }
+.py-card:hover { border-color: #333; transform: translateY(-2px); }
+.py-card-level {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.level-debut { background: rgba(200,241,53,0.1); color: var(--accent); }
+.level-inter { background: rgba(255,107,53,0.1); color: var(--accent2); }
+.level-avance { background: rgba(53,200,241,0.1); color: var(--accent3); }
+.level-expert { background: rgba(200,53,241,0.1); color: #c835f1; }
+.py-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.py-card p { font-size: 13px; color: #888; line-height: 1.6; }
+.py-card ul {
+  margin-top: 12px;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.py-card ul li {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  background: #1e1e1e;
+  border-radius: 3px;
+  color: #aaa;
+}
+
+/* CODE BLOCK */
+.code-block {
+  background: #0f0f0f;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-x: auto;
+  margin: 20px 0;
+  position: relative;
+}
+.code-block .comment { color: #555; }
+.code-block .keyword { color: var(--accent); }
+.code-block .string { color: var(--accent2); }
+.code-block .func { color: var(--accent3); }
+.code-block .copy-btn {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: var(--border);
+  border: none;
+  color: #888;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: none;
+  transition: all 0.2s;
+}
+.code-block .copy-btn:hover { background: var(--accent); color: var(--black); }
+
+/* PROJETS */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.25s;
+  cursor: none;
+}
+.project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.project-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+.project-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+.project-card p { font-size: 13px; color: #777; line-height: 1.6; }
+.project-tags {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.project-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  background: #1a1a1a;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--accent3);
+}
+.project-diff {
+  margin-top: 12px;
+  display: flex;
+  gap: 4px;
+}
+.diff-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.diff-dot.off { background: var(--border); }
+
+/* OUTILS */
+.tools-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.tool-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+  cursor: none;
+}
+.tool-item:hover {
+  border-color: var(--accent);
+  background: #1a1a1a;
+}
+.tool-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tool-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--white);
+}
+.tool-desc {
+  font-size: 11px;
+  color: #555;
+  margin-top: 2px;
+}
+
+/* ARGENT SECTION */
+.money-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+.money-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+  transition: all 0.2s;
+}
+.money-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+.money-amount {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.money-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--white);
+}
+.money-card ul {
+  list-style: none;
+}
+.money-card ul li {
+  font-size: 13px;
+  color: #888;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+}
+.money-card ul li::before {
+  content: '→';
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* TRACKER */
+.tracker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.tracker-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+.tracker-card label {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: #666;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.tracker-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  cursor: none;
+}
+.tracker-check input[type="checkbox"] {
+  width: 18px; height: 18px;
+  accent-color: var(--accent);
+  cursor: none;
+}
+.tracker-check span {
+  font-size: 13px;
+  color: #bbb;
+  transition: color 0.2s;
+}
+.tracker-check input:checked + span {
+  color: var(--accent);
+  text-decoration: line-through;
+}
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+.streak-display {
+  text-align: center;
+  padding: 32px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.streak-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 80px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.streak-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: #555;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* FOOTER */
+footer {
+  padding: 60px 40px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+footer p {
+  font-size: 14px;
+  color: #444;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: #666;
+  border-radius: 4px;
+  cursor: none;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.tab-btn:hover { border-color: #555; color: var(--white); }
+.tab-btn.active { background: var(--accent); color: var(--black); border-color: var(--accent); font-weight: 700; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* LEVEL PROGRESS */
+.level-path {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+}
+.level-step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.level-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.level-content h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.level-content p { font-size: 13px; color: #888; }
+.level-content ul {
+  margin-top: 12px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.level-content ul li {
+  font-size: 13px;
+  color: #bbb;
+  display: flex;
+  gap: 8px;
+}
+.level-content ul li::before { content: '▸'; color: var(--accent); }
+
+/* FILTER */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: #666;
+  border-radius: 3px;
+  cursor: none;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.filter-btn:hover, .filter-btn.active { border-color: var(--accent3); color: var(--accent3); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* HIGHLIGHT */
+.highlight {
+  background: rgba(200,241,53,0.08);
+  border: 1px solid rgba(200,241,53,0.2);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+.highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 12px 20px; }
+  .nav-links { display: none; }
+  section { padding: 60px 20px; }
+  .hero { padding: 100px 20px 60px; }
+  .hero-stats { position: static; flex-direction: row; justify-content: flex-start; margin-top: 48px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PYTHON EMPIRE</div>
+  <div class="nav-links">
+    <a href="#routine">Routine</a>
+    <a href="#python">Python</a>
+    <a href="#projets">Projets</a>
+    <a href="#outils">200+ Outils</a>
+    <a href="#argent">Argent</a>
+    <a href="#mindset">Mindset</a>
+    <a href="#tracker">Tracker</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">// TON EMPIRE COMMENCE MAINTENANT</div>
+  <h1>
+    DEVIENS
+    <span class="line2">INARRÊTABLE.</span>
+    <span class="line3">EN PYTHON.</span>
+  </h1>
+  <p class="hero-sub">Un système complet pour maîtriser Python, construire ta richesse et devenir la meilleure version de toi-même — depuis Abidjan vers le monde entier.</p>
+  <div class="hero-cta">
+    <a href="#routine" class="btn-primary">Commencer aujourd'hui</a>
+    <a href="#python" class="btn-ghost">Voir le plan Python →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Outils Python</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Projets</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Potentiel</div>
+    </div>
+  </div>
+</section>
+
+<!-- ROUTINE MATINALE -->
+<section id="routine">
+  <div class="section-tag">// 01 — ROUTINE MATINALE</div>
+  <h2 class="section-title">La routine qui<br><span>change tout</span></h2>
+  <div class="highlight">
+    <strong>Règle d'or :</strong> Les 90 premières minutes de ta journée sont les plus précieuses. Aucun réseau social, aucun WhatsApp. Ce temps t'appartient.
+  </div>
+  <div class="routine-timeline">
+    <div class="routine-item">
+      <div class="routine-time">05h00</div>
+      <div class="routine-dot"></div>
+      <div class="routine-card">
+        <h3>💧 Réveil brutal + hydratation</h3>
+        <p>Téléphone à l'autre bout de la chambre. Dès l'alarme : 5-4-3-2-1 et debout. Grand verre d'eau immédiatement.</p>
+        <div class="tip">→ Règle absolue : zéro snooze. Jamais.</div>
+      </div>
+    </div>
+    <div class="routine-item">
+      <div class="routine-time">05h05</div>
+      <div class="routine-dot"></div>
+      <div class="routine-card">
+        <h3>🏃 Mouvement (10 min)</h3>
+        <p>10 pompes, 20 squats, étirements. Pas besoin de salle. Active ton corps, réveille ton cerveau.</p>
+        <div class="tip">→ La discipline physique = discipline mentale</div>
+      </div>
+    </div>
+    <div class="routine-item">
+      <div class="routine-time">05h15</div>
+      <div class="routine-dot"></div>
+      <div class="routine-card">
+        <h3>🧠 Journaling (10 min)</h3>
+        <p>3 choses pour lesquelles tu es reconnaissant. 1 objectif du jour. 1 affirmation. Écris à la main.</p>
+        <div class="tip">→ "Je deviens un génie Python et un entrepreneur africain puissant"</div>
+      </div>
+    </div>
+    <div class="routine-item">
+      <div class="routine-time">05h25</div>
+      <div class="routine-dot"></div>
+      <div class="routine-card">
+        <h3>📚 Lecture (20 min)</h3>
+        <p>Un seul livre à la fois. Biographies de milliardaires, Python, business, mindset. 20 pages/jour = 7 300 pages/an.</p>
+        <div class="tip">→ Livres recommandés : Rich Dad Poor Dad, Atomic Habits, The Lean Startup</div>
+      </div>
+    </div>
+    <div class="routine-item">
+      <div class="routine-time">05h45</div>
+      <div class="routine-dot"></div>
+      <div class="routine-card">
+        <h3>🐍 Python (60 min)</h3>
+        <p>C'est le bloc le plus important. Code tous les jours. Projet, exercice, tutoriel. La régularité bat le talent.</p>
+        <div class="tip">→ Objectif : 10 000 heures. À 1h/jour = 10 ans. À 4h/jour = 2,5 ans.</div>
+      </div>
+    </div>
+    <div class="routine-item">
+      <div class="routine-time">06h45</div>
+      <div class="routine-dot"></div>
+      <div class="routine-card">
+        <h3>✅ Intention du jour</h3>
+        <p>3 tâches prioritaires pour la journée. Une seule règle : finir les 3 avant de dormir.</p>
+        <div class="tip">→ "Eat the frog" : commence par la tâche la plus difficile</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PYTHON MASTERY -->
+<section id="python">
+  <div class="section-tag">// 02 — MAÎTRISE PYTHON</div>
+  <h2 class="section-title">Python : du <span>zéro</span><br>au génie mondial</h2>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('parcours')">Parcours</button>
+    <button class="tab-btn" onclick="switchTab('frameworks')">Frameworks</button>
+    <button class="tab-btn" onclick="switchTab('cyber')">Cybersécurité</button>
+    <button class="tab-btn" onclick="switchTab('data')">Data & IA</button>
+    <button class="tab-btn" onclick="switchTab('cloud')">Cloud & Réseau</button>
+  </div>
+
+  <div id="tab-parcours" class="tab-content active">
+    <div class="level-path">
+      <div class="level-step">
+        <div class="level-num">1</div>
+        <div class="level-content">
+          <h3>Semaines 1–4 : Les bases absolues</h3>
+          <p>Tu dois coder tous les jours, même 30 minutes. La régularité crée le génie.</p>
+          <ul>
+            <li>Variables, types, conditions, boucles</li>
+            <li>Fonctions, modules, fichiers</li>
+            <li>Listes, dictionnaires, tuples, sets</li>
+            <li>POO : classes, héritage, polymorphisme</li>
+            <li>Gestion d'erreurs (try/except)</li>
+          </ul>
+          <div class="code-block" style="margin-top:16px">
+            <button class="copy-btn" onclick="copyCode(this)">copier</button>
+            <span class="comment"># Ton premier programme qui génère de la valeur</span><br>
+            <span class="keyword">def</span> <span class="func">calculer_revenus</span>(heures_code, tarif_horaire):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"""Calcule tes revenus potentiels en freelance"""</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;revenus_jour = heures_code * tarif_horaire<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;revenus_mois = revenus_jour * 22<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"jour"</span>: f<span class="string">"{revenus_jour:,} CFA"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"mois"</span>: f<span class="string">"{revenus_mois:,} CFA"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"an"</span>: f<span class="string">"{revenus_mois*12:,} CFA"</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+            <span class="comment"># À 5000 CFA/heure et 4h de code/jour</span><br>
+            <span class="func">print</span>(calculer_revenus(<span class="string">4</span>, <span class="string">5000</span>))
+          </div>
+        </div>
+      </div>
+      <div class="level-step">
+        <div class="level-num">2</div>
+        <div class="level-content">
+          <h3>Mois 2–3 : Librairies essentielles</h3>
+          <p>C'est ici que Python devient une arme. Ces librairies te permettront de tout faire.</p>
+          <ul>
+            <li>requests / httpx — APIs et web scraping</li>
+            <li>pandas / numpy — manipulation de données</li>
+            <li>matplotlib / seaborn — visualisation</li>
+            <li>sqlite3 / SQLAlchemy — bases de données</li>
+            <li>schedule / threading — automatisation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="level-step">
+        <div class="level-num">3</div>
+        <div class="level-content">
+          <h3>Mois 4–6 : Frameworks & Déploiement</h3>
+          <p>Tu crées maintenant des applications réelles que tu peux vendre ou déployer.</p>
+          <ul>
+            <li>FastAPI — APIs ultra-rapides (le meilleur pour débuter)</li>
+            <li>Django + DRF — applications web complètes</li>
+            <li>Streamlit — apps data en quelques lignes</li>
+            <li>Docker — containerisation de tes apps</li>
+            <li>Git/GitHub — collaboration et portfolio</li>
+          </ul>
+        </div>
+      </div>
+      <div class="level-step">
+        <div class="level-num">4</div>
+        <div class="level-content">
+          <h3>Mois 7–12 : Spécialisation & Monétisation</h3>
+          <p>Tu choisis ton domaine de prédilection et tu deviens une référence.</p>
+          <ul>
+            <li>Choix : IA/ML, Cybersécurité, Finance, ou Web</li>
+            <li>Projets open source sur GitHub</li>
+            <li>Premiers clients freelance</li>
+            <li>Contenu sur YouTube/LinkedIn autour de Python</li>
+            <li>Vente de formations ou d'outils</li>
+          </ul>
+        </div>
+      </div>
+      <div class="level-step">
+        <div class="level-num">5</div>
+        <div class="level-content">
+          <h3>Année 2+ : Top 1%</h3>
+          <p>Tu es maintenant meilleur que 99% des développeurs africains. Tu peux travailler pour n'importe qui dans le monde.</p>
+          <ul>
+            <li>Architecture de systèmes complexes</li>
+            <li>Contributions open source majeures</li>
+            <li>Création d'une startup ou d'un SaaS</li>
+            <li>Remote work pour des entreprises internationales</li>
+            <li>Enseigner et mentorer les autres</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-frameworks" class="tab-content">
+    <div class="python-grid">
+      <div class="py-card">
+        <span class="py-card-level level-debut">Débutant</span>
+        <h3>Streamlit</h3>
+        <p>Crée des applications web interactives avec des données en quelques lignes de Python. Parfait pour présenter tes projets data.</p>
+        <ul>
+          <li>Dashboards</li><li>Formulaires</li><li>Graphiques</li><li>ML apps</li>
+        </ul>
+        <div class="code-block" style="margin-top:16px">
+          <span class="keyword">import</span> streamlit <span class="keyword">as</span> st<br>
+          st.<span class="func">title</span>(<span class="string">"Mon App Finance"</span>)<br>
+          montant = st.<span class="func">slider</span>(<span class="string">"Investissement CFA"</span>, <span class="string">10000</span>, <span class="string">1000000</span>)<br>
+          st.<span class="func">metric</span>(<span class="string">"Profit à 10%"</span>, f<span class="string">"{montant*0.1:,.0f} CFA"</span>)
+        </div>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>FastAPI</h3>
+        <p>Le framework Python le plus rapide pour créer des APIs. Utilisé par Netflix, Uber, Microsoft. Idéal pour monétiser tes compétences.</p>
+        <ul>
+          <li>REST APIs</li><li>Auth JWT</li><li>Async</li><li>Docs auto</li>
+        </ul>
+        <div class="code-block" style="margin-top:16px">
+          <span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI<br>
+          app = <span class="func">FastAPI</span>()<br><br>
+          <span class="keyword">@</span>app.<span class="func">get</span>(<span class="string">"/crypto/{symbole}"</span>)<br>
+          <span class="keyword">async def</span> <span class="func">get_prix</span>(symbole: str):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> {<span class="string">"prix"</span>: <span class="string">"..."</span>}
+        </div>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>Django + DRF</h3>
+        <p>Le framework web Python le plus complet. Pour les applications sérieuses : e-commerce, plateformes, SaaS.</p>
+        <ul>
+          <li>ORM puissant</li><li>Auth intégrée</li><li>Admin panel</li><li>REST Framework</li>
+        </ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>OpenCV</h3>
+        <p>Vision par ordinateur. Reconnaissance faciale, détection d'objets, traitement d'images. Des projets qui impressionnent.</p>
+        <ul>
+          <li>Détection visage</li><li>Comptage objets</li><li>Caméra temps réel</li><li>OCR</li>
+        </ul>
+        <div class="code-block" style="margin-top:16px">
+          <span class="keyword">import</span> cv2<br>
+          cam = cv2.<span class="func">VideoCapture</span>(<span class="string">0</span>)<br>
+          face_cascade = cv2.<span class="func">CascadeClassifier</span>(<br>
+          &nbsp;&nbsp;cv2.data.haarcascades + <span class="string">'haarcascade_frontalface_default.xml'</span><br>
+          )
+        </div>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>Kivy</h3>
+        <p>Applications mobiles Android et iOS en Python. Crée des apps pour ton marché local sans apprendre Java ou Swift.</p>
+        <ul>
+          <li>Android/iOS</li><li>Interface tactile</li><li>Multi-touch</li><li>Animations</li>
+        </ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>Celery + Redis</h3>
+        <p>Tâches asynchrones et files d'attente. Pour les applications qui doivent faire du travail en arrière-plan.</p>
+        <ul>
+          <li>Tâches async</li><li>Planification</li><li>Scalabilité</li><li>Workers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-cyber" class="tab-content">
+    <div class="highlight">
+      <strong>Important :</strong> La cybersécurité en Python s'apprend pour <strong>protéger les systèmes</strong>, pas pour les attaquer illégalement. Ces compétences sont parmi les mieux payées au monde.
+    </div>
+    <div class="python-grid">
+      <div class="py-card">
+        <span class="py-card-level level-debut">Fondations</span>
+        <h3>Réseaux avec Python</h3>
+        <p>Comprendre les protocoles TCP/IP, HTTP, DNS pour analyser et sécuriser les communications.</p>
+        <ul><li>socket</li><li>scapy</li><li>paramiko</li><li>nmap</li></ul>
+        <div class="code-block" style="margin-top:16px">
+          <span class="keyword">import</span> socket<br>
+          <span class="comment"># Scanner de ports simple</span><br>
+          <span class="keyword">def</span> <span class="func">scanner_port</span>(host, port):<br>
+          &nbsp;&nbsp;s = socket.<span class="func">socket</span>()<br>
+          &nbsp;&nbsp;s.<span class="func">settimeout</span>(<span class="string">1</span>)<br>
+          &nbsp;&nbsp;<span class="keyword">return</span> s.<span class="func">connect_ex</span>((host, port)) == <span class="string">0</span>
+        </div>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>Analyse de paquets</h3>
+        <p>Capturer et analyser le trafic réseau pour détecter des intrusions et comprendre les protocoles.</p>
+        <ul><li>scapy</li><li>pyshark</li><li>dpkt</li><li>impacket</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>Web Security</h3>
+        <p>Tester la sécurité des applications web : injections SQL, XSS, CSRF. Deviens un pentester.</p>
+        <ul><li>requests</li><li>beautifulsoup</li><li>selenium</li><li>sqlmap-api</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>Cryptographie</h3>
+        <p>Chiffrement, hachage, signatures numériques. Protéger les données de tes clients.</p>
+        <ul><li>cryptography</li><li>pycryptodome</li><li>hashlib</li><li>ssl</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>OSINT & Forensics</h3>
+        <p>Collecte d'informations en sources ouvertes, analyse forensique numérique.</p>
+        <ul><li>shodan</li><li>theHarvester</li><li>volatility3</li><li>maltego</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-expert">Expert</span>
+        <h3>Malware Analysis</h3>
+        <p>Analyser des malwares pour comprendre leur fonctionnement et créer des défenses.</p>
+        <ul><li>yara-python</li><li>pefile</li><li>capstone</li><li>frida</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-data" class="tab-content">
+    <div class="python-grid">
+      <div class="py-card">
+        <span class="py-card-level level-debut">Débutant</span>
+        <h3>Pandas & NumPy</h3>
+        <p>La base absolue de la data science. Manipuler, nettoyer et analyser des données comme un pro.</p>
+        <ul><li>DataFrames</li><li>Nettoyage</li><li>Agrégation</li><li>Export Excel</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>Machine Learning</h3>
+        <p>scikit-learn pour créer des modèles prédictifs. Prédire les prix, classifier des données, détecter des anomalies.</p>
+        <ul><li>scikit-learn</li><li>XGBoost</li><li>joblib</li><li>mlflow</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>Deep Learning</h3>
+        <p>Réseaux de neurones avec PyTorch ou TensorFlow. Créer des modèles de reconnaissance d'images, texte, son.</p>
+        <ul><li>PyTorch</li><li>TensorFlow</li><li>Keras</li><li>ONNX</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>NLP & LLMs</h3>
+        <p>Traitement du langage naturel. Créer des chatbots, analyser des sentiments, résumer des textes.</p>
+        <ul><li>transformers</li><li>spacy</li><li>langchain</li><li>openai</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>Finance & Trading</h3>
+        <p>Analyser les marchés financiers, créer des bots de trading, backtester des stratégies.</p>
+        <ul><li>yfinance</li><li>ccxt</li><li>backtrader</li><li>ta-lib</li></ul>
+        <div class="code-block" style="margin-top:16px">
+          <span class="keyword">import</span> yfinance <span class="keyword">as</span> yf<br>
+          btc = yf.<span class="func">Ticker</span>(<span class="string">"BTC-USD"</span>)<br>
+          hist = btc.<span class="func">history</span>(period=<span class="string">"1y"</span>)<br>
+          <span class="func">print</span>(hist[<span class="string">"Close"</span>].<span class="func">tail</span>())
+        </div>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>Computer Vision</h3>
+        <p>OpenCV + deep learning pour des projets qui bluffent : comptage de personnes, détection de maladies des plantes.</p>
+        <ul><li>OpenCV</li><li>YOLO</li><li>Mediapipe</li><li>Detectron2</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-cloud" class="tab-content">
+    <div class="python-grid">
+      <div class="py-card">
+        <span class="py-card-level level-debut">Débutant</span>
+        <h3>AWS avec Boto3</h3>
+        <p>Automatiser Amazon Web Services avec Python. Déployer, gérer des serveurs, stocker des fichiers.</p>
+        <ul><li>S3 storage</li><li>EC2 instances</li><li>Lambda functions</li><li>DynamoDB</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>Docker & Kubernetes</h3>
+        <p>Containeriser tes applications Python pour les déployer partout dans le monde.</p>
+        <ul><li>docker-py</li><li>kubernetes</li><li>Helm</li><li>CI/CD</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>APIs & Webhooks</h3>
+        <p>Connecter tes apps à des services tiers : paiements, SMS, email, WhatsApp Business.</p>
+        <ul><li>stripe</li><li>twilio</li><li>sendgrid</li><li>whatsapp-api</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-inter">Intermédiaire</span>
+        <h3>Automatisation</h3>
+        <p>Automatiser tout ce qui est répétitif. Scraping, bots, notifications, rapports automatiques.</p>
+        <ul><li>selenium</li><li>playwright</li><li>airflow</li><li>prefect</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>Microservices</h3>
+        <p>Architecture scalable avec plusieurs services Python qui communiquent. Pour les startups sérieuses.</p>
+        <ul><li>RabbitMQ</li><li>Kafka</li><li>gRPC</li><li>Redis</li></ul>
+      </div>
+      <div class="py-card">
+        <span class="py-card-level level-avance">Avancé</span>
+        <h3>Infrastructure as Code</h3>
+        <p>Gérer toute ton infrastructure avec du code Python. Pulumi, CDK, Terraform.</p>
+        <ul><li>pulumi</li><li>aws-cdk</li><li>ansible</li><li>fabric</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETS CONCRETS -->
+<section id="projets">
+  <div class="section-tag">// 03 — PROJETS QUI IMPRESSIONNENT</div>
+  <h2 class="section-title">50 projets qui<br><span>vont te rendre célèbre</span></h2>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProjects('all')">Tous</button>
+    <button class="filter-btn" onclick="filterProjects('ia')">IA & Vision</button>
+    <button class="filter-btn" onclick="filterProjects('web')">Web & API</button>
+    <button class="filter-btn" onclick="filterProjects('finance')">Finance</button>
+    <button class="filter-btn" onclick="filterProjects('cyber')">Cybersécurité</button>
+    <button class="filter-btn" onclick="filterProjects('auto')">Automatisation</button>
+    <button class="filter-btn" onclick="filterProjects('agri')">Agriculture</button>
+  </div>
+
+  <div class="projects-grid" id="projects-grid"></div>
+</section>
+
+<!-- 200+ OUTILS -->
+<section id="outils">
+  <div class="section-tag">// 04 — 200+ OUTILS PYTHON</div>
+  <h2 class="section-title">Ton arsenal<br><span>complet</span></h2>
+  <div class="tools-container" id="tools-container"></div>
+</section>
+
+<!-- ARGENT -->
+<section id="argent">
+  <div class="section-tag">// 05 — FAIRE DE L'ARGENT AVEC PYTHON</div>
+  <h2 class="section-title">Python =<br><span>Machine à cash</span></h2>
+  <div class="money-grid" id="money-grid"></div>
+</section>
+
+<!-- MINDSET -->
+<section id="mindset">
+  <div class="section-tag">// 06 — DEVENIR LA MEILLEURE VERSION</div>
+  <h2 class="section-title">Mindset de<br><span>champion</span></h2>
+  <div class="python-grid">
+    <div class="py-card">
+      <h3>📖 Livres obligatoires</h3>
+      <p>Ces livres vont changer ta façon de penser en profondeur.</p>
+      <ul style="flex-direction:column;gap:6px">
+        <li style="color:#aaa">Rich Dad Poor Dad — Kiyosaki</li>
+        <li style="color:#aaa">Atomic Habits — James Clear</li>
+        <li style="color:#aaa">The 4-Hour Work Week — Tim Ferriss</li>
+        <li style="color:#aaa">Think and Grow Rich — Napoleon Hill</li>
+        <li style="color:#aaa">The Lean Startup — Eric Ries</li>
+        <li style="color:#aaa">Zero to One — Peter Thiel</li>
+        <li style="color:#aaa">The Psychology of Money — Morgan Housel</li>
+      </ul>
+    </div>
+    <div class="py-card">
+      <h3>🧠 Lois mentales du succès</h3>
+      <p>Les principes que tous les gens riches appliquent.</p>
+      <ul style="flex-direction:column;gap:6px">
+        <li style="color:#aaa">Un seul focus à la fois</li>
+        <li style="color:#aaa">Les résultats avant le confort</li>
+        <li style="color:#aaa">Apprendre = investir en toi</li>
+        <li style="color:#aaa">L'environnement façonne le destin</li>
+        <li style="color:#aaa">Enseigner pour ancrer</li>
+        <li style="color:#aaa">80/20 : 20% d'efforts = 80% des résultats</li>
+        <li style="color:#aaa">La richesse = résoudre des problèmes</li>
+      </ul>
+    </div>
+    <div class="py-card">
+      <h3>🔥 Règles d'or quotidiennes</h3>
+      <p>Applique ces règles chaque jour, sans exception.</p>
+      <ul style="flex-direction:column;gap:6px">
+        <li style="color:#aaa">1h de Python minimum, quoi qu'il arrive</li>
+        <li style="color:#aaa">Pas de réseaux sociaux avant 10h</li>
+        <li style="color:#aaa">Dormir 7h minimum</li>
+        <li style="color:#aaa">Un projet GitHub par semaine</li>
+        <li style="color:#aaa">Un contenu créé par semaine</li>
+        <li style="color:#aaa">Parler à un entrepreneur par mois</li>
+        <li style="color:#aaa">Épargner 20% de chaque revenu</li>
+      </ul>
+    </div>
+    <div class="py-card">
+      <h3>💰 Plan financier 5 ans</h3>
+      <p>Objectifs concrets pour ta liberté financière.</p>
+      <ul style="flex-direction:column;gap:6px">
+        <li style="color:#aaa">Mois 1–6 : Compétences + 50k CFA/mois</li>
+        <li style="color:#aaa">Mois 7–12 : Freelance + 200k CFA/mois</li>
+        <li style="color:#aaa">An 2 : Produit propre + 500k CFA/mois</li>
+        <li style="color:#aaa">An 3 : Automatisation + 1M CFA/mois</li>
+        <li style="color:#aaa">An 5 : Investissements + liberté totale</li>
+      </ul>
+    </div>
+    <div class="py-card">
+      <h3>🎯 Identité du gagnant</h3>
+      <p>Tu ne fais pas ces choses. Tu ES cette personne.</p>
+      <ul style="flex-direction:column;gap:6px">
+        <li style="color:#aaa">"Je suis un développeur Python expert"</li>
+        <li style="color:#aaa">"Je crée de la valeur chaque jour"</li>
+        <li style="color:#aaa">"L'Afrique a besoin de moi"</li>
+        <li style="color:#aaa">"Mon temps est la ressource la plus rare"</li>
+        <li style="color:#aaa">"Je résous des problèmes réels"</li>
+        <li style="color:#aaa">"L'échec est une donnée, pas une fin"</li>
+      </ul>
+    </div>
+    <div class="py-card">
+      <h3>🌍 Vision africaine</h3>
+      <p>Tu as un avantage énorme : tu connais tes marchés.</p>
+      <ul style="flex-direction:column;gap:6px">
+        <li style="color:#aaa">Solutions pour l'agriculture locale</li>
+        <li style="color:#aaa">Fintech pour les non-bancarisés</li>
+        <li style="color:#aaa">E-commerce adapté au marché ivoirien</li>
+        <li style="color:#aaa">Apps de santé pour zones rurales</li>
+        <li style="color:#aaa">Logistique et livraison optimisée</li>
+        <li style="color:#aaa">Éducation en ligne en français</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKER JOURNALIER -->
+<section id="tracker">
+  <div class="section-tag">// 07 — TRACKER JOURNALIER</div>
+  <h2 class="section-title">Ta journée<br><span>idéale</span></h2>
+  <div class="tracker-grid" id="tracker-grid"></div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:600px;">
+    <div class="streak-display">
+      <div class="streak-num" id="streak">0</div>
+      <div class="streak-label">Jours de streak</div>
+    </div>
+    <div class="streak-display">
+      <div class="streak-num" id="score-display">0%</div>
+      <div class="streak-label">Score aujourd'hui</div>
+    </div>
+  </div>
+  <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+    <button onclick="resetTracker()" style="font-size:13px; color:#888; background:transparent; border:1px solid var(--border); padding:8px 16px; border-radius:4px; cursor:none;">Réinitialiser</button>
+    <button onclick="saveStreak()" style="font-size:13px; background:var(--accent); color:var(--black); border:none; padding:8px 20px; border-radius:4px; cursor:none; font-weight:700;">Valider ma journée ✓</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PYTHON EMPIRE</div>
+  <p>Construit pour toi, depuis Abidjan. Le code que tu écriras demain matin changera ta vie. Commence maintenant.</p>
+  <p style="margin-top:16px; font-family:'Space Mono',monospace; font-size:11px; color:#333;">// print("Hello, World") → print("Hello, Wealth")</p>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.transform = `translate(${mx-6}px, ${my-6}px)`;
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.transform = `translate(${rx-18}px, ${ry-18}px)`;
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// TABS
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// COPY CODE
+function copyCode(btn) {
+  const block = btn.parentElement;
+  const text = block.innerText.replace('copier', '').replace('copié!', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copié!';
+    setTimeout(() => btn.textContent = 'copier', 2000);
+  });
+}
+
+// PROJECTS DATA
+const projects = [
+  { cat:'ia', icon:'🎯', name:'Détecteur de maladies des plantes', desc:'OpenCV + CNN pour détecter les maladies à partir d\'une photo de feuille. Vendre aux agriculteurs ivoiriens.', tags:['OpenCV','PyTorch','FastAPI'], diff:4 },
+  { cat:'ia', icon:'👁️', name:'Système de surveillance IA', desc:'Caméra de sécurité avec détection d\'intrusion et alertes WhatsApp automatiques.', tags:['OpenCV','YOLO','Twilio'], diff:3 },
+  { cat:'ia', icon:'🗣️', name:'Assistant vocal en dioula/français', desc:'Chatbot vocal pour aider les commerçants non-francophones. Marché énorme.', tags:['Whisper','TTS','LangChain'], diff:4 },
+  { cat:'ia', icon:'📊', name:'Analyseur de factures automatique', desc:'OCR + IA pour extraire automatiquement les données des factures. Vendre aux PME.', tags:['Tesseract','GPT-4','FastAPI'], diff:3 },
+  { cat:'ia', icon:'🌾', name:'Prédiction des récoltes', desc:'ML pour prédire les rendements agricoles selon la météo et le sol. Impact réel.', tags:['scikit-learn','pandas','Streamlit'], diff:3 },
+  { cat:'finance', icon:'📈', name:'Bot de trading crypto', desc:'Algorithme de trading automatique sur Binance avec backtesting. Backtest avant de risquer de l\'argent réel.', tags:['ccxt','pandas','backtrader'], diff:4 },
+  { cat:'finance', icon:'💹', name:'Analyseur d\'actions africaines', desc:'Dashboard pour analyser les actions de la BRVM avec alertes de prix.', tags:['yfinance','Streamlit','plotly'], diff:2 },
+  { cat:'finance', icon:'🏦', name:'App de microfinance', desc:'Système de gestion de tontine numérique pour groupes d\'épargne.', tags:['Django','DRF','React'], diff:4 },
+  { cat:'finance', icon:'₿', name:'Portfolio tracker crypto', desc:'Tracker en temps réel de ton portfolio crypto avec alertes et rapport P&L.', tags:['ccxt','Telegram','SQLite'], diff:2 },
+  { cat:'web', icon:'🛒', name:'Plateforme e-commerce locale', desc:'Marketplace pour artisans ivoiriens avec paiement Mobile Money intégré.', tags:['Django','Stripe','Celery'], diff:5 },
+  { cat:'web', icon:'🤖', name:'Chatbot WhatsApp business', desc:'Bot WhatsApp pour répondre aux clients 24/7, prendre commandes, gérer FAQ.', tags:['FastAPI','Twilio','GPT'], diff:3 },
+  { cat:'web', icon:'📱', name:'App de livraison locale', desc:'Clone de Jumia/Glovo pour ta ville. Backend API + tracking GPS.', tags:['FastAPI','Kivy','Redis'], diff:5 },
+  { cat:'web', icon:'🎓', name:'Plateforme de cours en ligne', desc:'LMS simplifié pour vendre tes formations Python. Paiement automatique.', tags:['Django','Stripe','AWS S3'], diff:4 },
+  { cat:'cyber', icon:'🔍', name:'Scanner de vulnérabilités web', desc:'Outil d\'audit de sécurité pour tester les sites web de tes clients.', tags:['requests','bs4','nmap'], diff:3 },
+  { cat:'cyber', icon:'🛡️', name:'Système de détection d\'intrusion', desc:'IDS basé sur le machine learning pour détecter les attaques réseau.', tags:['scapy','sklearn','pandas'], diff:5 },
+  { cat:'cyber', icon:'🔐', name:'Gestionnaire de mots de passe', desc:'App chiffrée pour stocker et générer des mots de passe sécurisés.', tags:['cryptography','tkinter','SQLite'], diff:2 },
+  { cat:'auto', icon:'📧', name:'Bot d\'outreach LinkedIn/Email', desc:'Automatiser la prospection pour trouver des clients freelance.', tags:['selenium','schedule','pandas'], diff:2 },
+  { cat:'auto', icon:'📰', name:'Agrégateur de news IA', desc:'Bot qui collecte, résume et envoie les news tech/business par WhatsApp.', tags:['feedparser','GPT','Telegram'], diff:2 },
+  { cat:'auto', icon:'📋', name:'Générateur de rapports auto', desc:'Génère automatiquement des rapports PDF professionnels depuis Excel.', tags:['pandas','reportlab','schedule'], diff:2 },
+  { cat:'agri', icon:'💧', name:'Système d\'irrigation intelligent', desc:'Arduino + Python pour automatiser l\'arrosage selon l\'humidité du sol.', tags:['pyserial','SQLite','Telegram'], diff:3 },
+  { cat:'agri', icon:'🌡️', name:'Station météo connectée', desc:'Capteurs + Raspberry Pi pour mesurer et prédire la météo locale.', tags:['RPi.GPIO','FastAPI','Chart.js'], diff:3 },
+  { cat:'agri', icon:'🐄', name:'Tracker de bétail GPS', desc:'Suivi GPS du bétail avec alertes si l\'animal sort de la zone définie.', tags:['GPS','SMS','SQLite'], diff:4 },
+];
+
+function filterProjects(cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderProjects(cat);
+}
+
+function renderProjects(filter = 'all') {
+  const grid = document.getElementById('projects-grid');
+  const filtered = filter === 'all' ? projects : projects.filter(p => p.cat === filter);
+  grid.innerHTML = filtered.map(p => `
+    <div class="project-card">
+      <span class="project-icon">${p.icon}</span>
+      <h3>${p.name}</h3>
+      <p>${p.desc}</p>
+      <div class="project-tags">${p.tags.map(t => `<span class="project-tag">${t}</span>`).join('')}</div>
+      <div class="project-diff">${[1,2,3,4,5].map(i => `<div class="diff-dot${i > p.diff ? ' off' : ''}"></div>`).join('')}</div>
+    </div>
+  `).join('');
+}
+renderProjects();
+
+// TOOLS
+const tools = [
+  {n:'requests',c:'#c835f1',d:'HTTP simplifié'},
+  {n:'FastAPI',c:'#35c8f1',d:'APIs ultra-rapides'},
+  {n:'Django',c:'#c8f135',d:'Web framework complet'},
+  {n:'Flask',c:'#c8f135',d:'Micro web framework'},
+  {n:'SQLAlchemy',c:'#ff6b35',d:'ORM puissant'},
+  {n:'pandas',c:'#c8f135',d:'Analyse de données'},
+  {n:'numpy',c:'#c8f135',d:'Calcul scientifique'},
+  {n:'matplotlib',c:'#35c8f1',d:'Visualisation'},
+  {n:'seaborn',c:'#35c8f1',d:'Stats visuelles'},
+  {n:'plotly',c:'#35c8f1',d:'Graphiques interactifs'},
+  {n:'scikit-learn',c:'#ff6b35',d:'Machine learning'},
+  {n:'PyTorch',c:'#ff6b35',d:'Deep learning'},
+  {n:'TensorFlow',c:'#ff6b35',d:'IA de Google'},
+  {n:'OpenCV',c:'#c835f1',d:'Vision par ordi'},
+  {n:'Pillow',c:'#c835f1',d:'Traitement images'},
+  {n:'transformers',c:'#ff6b35',d:'LLMs HuggingFace'},
+  {n:'langchain',c:'#ff6b35',d:'Apps avec LLMs'},
+  {n:'openai',c:'#ff6b35',d:'API GPT-4'},
+  {n:'Streamlit',c:'#35c8f1',d:'Apps data rapides'},
+  {n:'Gradio',c:'#35c8f1',d:'Interfaces ML'},
+  {n:'Dash',c:'#35c8f1',d:'Dashboards'},
+  {n:'Kivy',c:'#c8f135',d:'Apps mobiles'},
+  {n:'PyQt6',c:'#c8f135',d:'Desktop GUI'},
+  {n:'tkinter',c:'#c8f135',d:'GUI simple'},
+  {n:'selenium',c:'#ff6b35',d:'Automatisation web'},
+  {n:'playwright',c:'#ff6b35',d:'Scraping moderne'},
+  {n:'beautifulsoup4',c:'#ff6b35',d:'Parsing HTML'},
+  {n:'scrapy',c:'#ff6b35',d:'Scraping scalable'},
+  {n:'httpx',c:'#c835f1',d:'HTTP async'},
+  {n:'aiohttp',c:'#c835f1',d:'Async web'},
+  {n:'celery',c:'#35c8f1',d:'Tâches async'},
+  {n:'redis-py',c:'#35c8f1',d:'Cache Redis'},
+  {n:'pika',c:'#35c8f1',d:'RabbitMQ'},
+  {n:'kafka-python',c:'#35c8f1',d:'Streaming'},
+  {n:'psycopg2',c:'#c8f135',d:'PostgreSQL'},
+  {n:'pymongo',c:'#c8f135',d:'MongoDB'},
+  {n:'motor',c:'#c8f135',d:'MongoDB async'},
+  {n:'alembic',c:'#c8f135',d:'Migrations DB'},
+  {n:'pydantic',c:'#35c8f1',d:'Validation données'},
+  {n:'pytest',c:'#c8f135',d:'Tests Python'},
+  {n:'black',c:'#888',d:'Formatage code'},
+  {n:'ruff',c:'#888',d:'Linter ultra-rapide'},
+  {n:'mypy',c:'#888',d:'Typage statique'},
+  {n:'poetry',c:'#888',d:'Gestion dépendances'},
+  {n:'docker-py',c:'#35c8f1',d:'Docker API'},
+  {n:'boto3',c:'#ff6b35',d:'AWS Python SDK'},
+  {n:'google-cloud',c:'#35c8f1',d:'GCP SDK'},
+  {n:'azure-sdk',c:'#35c8f1',d:'Azure SDK'},
+  {n:'paramiko',c:'#c835f1',d:'SSH Python'},
+  {n:'scapy',c:'#c835f1',d:'Paquets réseau'},
+  {n:'nmap',c:'#c835f1',d:'Scanner réseau'},
+  {n:'cryptography',c:'#c835f1',d:'Chiffrement'},
+  {n:'pycryptodome',c:'#c835f1',d:'Crypto avancée'},
+  {n:'hashlib',c:'#c835f1',d:'Hachage'},
+  {n:'jwt',c:'#c835f1',d:'Auth tokens'},
+  {n:'passlib',c:'#c835f1',d:'Mots de passe'},
+  {n:'yfinance',c:'#c8f135',d:'Données boursières'},
+  {n:'ccxt',c:'#c8f135',d:'Exchanges crypto'},
+  {n:'backtrader',c:'#c8f135',d:'Backtesting'},
+  {n:'ta-lib',c:'#c8f135',d:'Indicateurs tech'},
+  {n:'alpaca-trade-api',c:'#c8f135',d:'Trading US'},
+  {n:'stripe',c:'#35c8f1',d:'Paiements'},
+  {n:'twilio',c:'#35c8f1',d:'SMS/WhatsApp'},
+  {n:'sendgrid',c:'#35c8f1',d:'Emails'},
+  {n:'plaid',c:'#35c8f1',d:'Open banking'},
+  {n:'python-telegram-bot',c:'#35c8f1',d:'Bots Telegram'},
+  {n:'discord.py',c:'#c835f1',d:'Bots Discord'},
+  {n:'tweepy',c:'#35c8f1',d:'API Twitter/X'},
+  {n:'instagrapi',c:'#c835f1',d:'Instagram API'},
+  {n:'schedule',c:'#888',d:'Planificateur'},
+  {n:'apscheduler',c:'#888',d:'Scheduler avancé'},
+  {n:'watchdog',c:'#888',d:'Surveillance fichiers'},
+  {n:'pyautogui',c:'#c8f135',d:'Automatisation GUI'},
+  {n:'keyboard',c:'#c8f135',d:'Contrôle clavier'},
+  {n:'pyperclip',c:'#888',d:'Presse-papier'},
+  {n:'rich',c:'#c835f1',d:'CLI magnifique'},
+  {n:'click',c:'#c835f1',d:'CLI apps'},
+  {n:'typer',c:'#c835f1',d:'CLIs modernes'},
+  {n:'loguru',c:'#888',d:'Logging élégant'},
+  {n:'python-dotenv',c:'#888',d:'Vars d\'env'},
+  {n:'pyyaml',c:'#888',d:'Fichiers YAML'},
+  {n:'openpyxl',c:'#c8f135',d:'Excel Python'},
+  {n:'xlsxwriter',c:'#c8f135',d:'Écriture Excel'},
+  {n:'reportlab',c:'#c8f135',d:'PDFs Python'},
+  {n:'pdfplumber',c:'#c8f135',d:'Lecture PDFs'},
+  {n:'python-docx',c:'#c8f135',d:'Word Python'},
+  {n:'Pytesseract',c:'#c835f1',d:'OCR Python'},
+  {n:'easyocr',c:'#c835f1',d:'OCR multi-langues'},
+  {n:'pyttsx3',c:'#c835f1',d:'Text-to-speech'},
+  {n:'SpeechRecognition',c:'#c835f1',d:'STT Python'},
+  {n:'whisper',c:'#c835f1',d:'STT OpenAI'},
+  {n:'librosa',c:'#c835f1',d:'Audio ML'},
+  {n:'pygame',c:'#ff6b35',d:'Jeux 2D'},
+  {n:'pyglet',c:'#ff6b35',d:'Jeux multimédia'},
+  {n:'pyopengl',c:'#ff6b35',d:'Graphiques 3D'},
+  {n:'arcade',c:'#ff6b35',d:'Jeux modernes'},
+  {n:'gymnasium',c:'#ff6b35',d:'RL environnements'},
+  {n:'stable-baselines3',c:'#ff6b35',d:'RL algorithms'},
+  {n:'networkx',c:'#35c8f1',d:'Graphes réseaux'},
+  {n:'igraph',c:'#35c8f1',d:'Analyse réseaux'},
+  {n:'geopandas',c:'#35c8f1',d:'Données géo'},
+  {n:'folium',c:'#35c8f1',d:'Cartes interactives'},
+  {n:'shapely',c:'#35c8f1',d:'Géométrie'},
+  {n:'sympy',c:'#c8f135',d:'Maths symboliques'},
+  {n:'scipy',c:'#c8f135',d:'Science Python'},
+  {n:'statsmodels',c:'#c8f135',d:'Statistiques'},
+  {n:'pymc',c:'#c8f135',d:'Stats bayésiennes'},
+  {n:'arrow',c:'#888',d:'Dates simplifiées'},
+  {n:'pendulum',c:'#888',d:'Timezone magique'},
+  {n:'more-itertools',c:'#888',d:'Itérateurs utils'},
+  {n:'toolz',c:'#888',d:'Prog fonctionnelle'},
+  {n:'attrs',c:'#888',d:'Classes Python+'},
+  {n:'dataclasses-json',c:'#888',d:'JSON ↔ classes'},
+  {n:'marshmallow',c:'#ff6b35',d:'Sérialisation'},
+  {n:'cerberus',c:'#ff6b35',d:'Validation'},
+  {n:'voluptuous',c:'#ff6b35',d:'Schémas données'},
+  {n:'tqdm',c:'#c8f135',d:'Barres de progression'},
+  {n:'alive-progress',c:'#c8f135',d:'Progress animé'},
+  {n:'python-decouple',c:'#888',d:'Config management'},
+  {n:'environs',c:'#888',d:'Env variables'},
+  {n:'cachetools',c:'#35c8f1',d:'Cache Python'},
+  {n:'diskcache',c:'#35c8f1',d:'Cache disque'},
+  {n:'joblib',c:'#c8f135',d:'Parallélisme'},
+  {n:'multiprocessing',c:'#c8f135',d:'Multi-CPU'},
+  {n:'concurrent.futures',c:'#c8f135',d:'Async simple'},
+  {n:'asyncio',c:'#c8f135',d:'Async natif'},
+  {n:'trio',c:'#c8f135',d:'Async moderne'},
+  {n:'anyio',c:'#c8f135',d:'Async universel'},
+  {n:'pyzmq',c:'#ff6b35',d:'Messaging ZeroMQ'},
+  {n:'websockets',c:'#ff6b35',d:'WebSockets'},
+  {n:'socketio',c:'#ff6b35',d:'Real-time'},
+  {n:'pika (AMQP)',c:'#ff6b35',d:'Message queue'},
+  {n:'graphene',c:'#c835f1',d:'GraphQL Python'},
+  {n:'strawberry',c:'#c835f1',d:'GraphQL moderne'},
+  {n:'gRPC',c:'#c835f1',d:'RPC Google'},
+  {n:'protobuf',c:'#c835f1',d:'Sérialisation binaire'},
+  {n:'thrift',c:'#c835f1',d:'RPC Apache'},
+  {n:'Fabric',c:'#35c8f1',d:'Déploiement SSH'},
+  {n:'ansible',c:'#35c8f1',d:'Automation infra'},
+  {n:'invoke',c:'#35c8f1',d:'Task runner'},
+  {n:'nox',c:'#888',d:'Automation tests'},
+  {n:'pre-commit',c:'#888',d:'Hooks Git'},
+  {n:'bandit',c:'#c835f1',d:'Sécurité code'},
+  {n:'safety',c:'#c835f1',d:'Vulnérabilités deps'},
+  {n:'semgrep',c:'#c835f1',d:'Analyse statique'},
+  {n:'hypothesis',c:'#c8f135',d:'Property testing'},
+  {n:'faker',c:'#c8f135',d:'Données de test'},
+  {n:'factory-boy',c:'#c8f135',d:'Test factories'},
+  {n:'responses',c:'#c8f135',d:'Mock HTTP'},
+  {n:'freezegun',c:'#888',d:'Mock dates/temps'},
+  {n:'pook',c:'#888',d:'HTTP mocking'},
+  {n:'httpretty',c:'#888',d:'HTTP interceptions'},
+  {n:'pyinstaller',c:'#ff6b35',d:'Exe Python'},
+  {n:'cx_Freeze',c:'#ff6b35',d:'Distribuer apps'},
+  {n:'briefcase',c:'#ff6b35',d:'Apps natives'},
+  {n:'flet',c:'#ff6b35',d:'Flutter en Python'},
+  {n:'nicegui',c:'#ff6b35',d:'UI moderne Python'},
+  {n:'reflex',c:'#ff6b35',d:'React en Python'},
+  {n:'panel',c:'#35c8f1',d:'Dashboards avancés'},
+  {n:'voila',c:'#35c8f1',d:'Notebooks → Apps'},
+  {n:'jupyter',c:'#35c8f1',d:'Notebooks'},
+  {n:'papermill',c:'#35c8f1',d:'Notebooks param'},
+  {n:'nbconvert',c:'#35c8f1',d:'Export notebooks'},
+  {n:'mlflow',c:'#ff6b35',d:'MLOps tracking'},
+  {n:'dvc',c:'#ff6b35',d:'Data versioning'},
+  {n:'bentoml',c:'#ff6b35',d:'ML deployment'},
+  {n:'ray',c:'#ff6b35',d:'ML distribué'},
+  {n:'dask',c:'#ff6b35',d:'Big data Python'},
+  {n:'polars',c:'#c8f135',d:'pandas ultra-rapide'},
+  {n:'vaex',c:'#c8f135',d:'Big DataFrames'},
+  {n:'pyarrow',c:'#c8f135',d:'Columnar data'},
+  {n:'great-expectations',c:'#ff6b35',d:'Data quality'},
+  {n:'pydantic-settings',c:'#35c8f1',d:'Config typée'},
+  {n:'python-jose',c:'#c835f1',d:'JWT avancé'},
+  {n:'authlib',c:'#c835f1',d:'OAuth2/OIDC'},
+  {n:'python-multipart',c:'#35c8f1',d:'Upload fichiers'},
+  {n:'fastapi-limiter',c:'#35c8f1',d:'Rate limiting'},
+  {n:'slowapi',c:'#35c8f1',d:'Rate limit Flask'},
+  {n:'starlette',c:'#35c8f1',d:'ASGI base'},
+  {n:'uvicorn',c:'#35c8f1',d:'Serveur ASGI'},
+  {n:'gunicorn',c:'#35c8f1',d:'Serveur WSGI'},
+  {n:'supervisor',c:'#888',d:'Process manager'},
+  {n:'circus',c:'#888',d:'Process monitoring'},
+  {n:'prometheus-client',c:'#ff6b35',d:'Métriques'},
+  {n:'opentelemetry',c:'#ff6b35',d:'Observabilité'},
+  {n:'sentry-sdk',c:'#ff6b35',d:'Error tracking'},
+  {n:'newrelic',c:'#ff6b35',d:'APM monitoring'},
+  {n:'datadog',c:'#ff6b35',d:'Monitoring infra'},
+  {n:'pyshark',c:'#c835f1',d:'Analyse réseau'},
+  {n:'impacket',c:'#c835f1',d:'Protocoles réseau'},
+  {n:'netmiko',c:'#c835f1',d:'Automatise réseau'},
+  {n:'napalm',c:'#c835f1',d:'Network automation'},
+  {n:'nornir',c:'#c835f1',d:'Network framework'},
+  {n:'pyserial',c:'#ff6b35',d:'Serial/Arduino'},
+  {n:'RPi.GPIO',c:'#ff6b35',d:'Raspberry Pi'},
+  {n:'micropython',c:'#ff6b35',d:'Python IoT'},
+  {n:'paho-mqtt',c:'#ff6b35',d:'IoT messaging'},
+];
+
+const tc = document.getElementById('tools-container');
+tc.innerHTML = tools.map(t => `
+  <div class="tool-item">
+    <div class="tool-dot" style="background:${t.c}"></div>
+    <div>
+      <div class="tool-name">${t.n}</div>
+      <div class="tool-desc">${t.d}</div>
+    </div>
+  </div>
+`).join('');
+
+// MONEY SECTION
+const moneyData = [
+  { domain:'Finance & Bourse', amount:'500k–2M CFA/mois', items:['Bot de trading crypto avec ccxt et backtest','Screener d\'actions africaines (BRVM)','Dashboard de gestion portefeuille','API de données financières à vendre','Signaux trading par Telegram/WhatsApp','Algorithmes d\'arbitrage crypto','Analyse sentiment Twitter → prix BTC'] },
+  { domain:'E-commerce & Affiliation', amount:'200k–1M CFA/mois', items:['Scraper de prix pour trouver les meilleures affaires','Bot de dropshipping automatisé','Système de recommandation produits','Tracking commissions affiliation','Marketplace pour artisans locaux','Automatisation annonces Jumia/Amazon','Générateur de fiches produits IA'] },
+  { domain:'Agriculture & Agritech', amount:'300k–800k CFA/mois', items:['App détection maladies des plantes (OpenCV)','Système d\'irrigation automatique IoT','Prédiction météo pour agriculteurs','Marketplace produits agricoles','Gestion de stock et livraison','Capteurs sol + alertes SMS','Cartographie des champs par drone'] },
+  { domain:'Freelance & Services', amount:'300k–2M CFA/mois', items:['Création d\'APIs pour startups locales','Automatisation de processus d\'entreprises','Développement apps Streamlit pour PME','Bots WhatsApp/Telegram pour business','Scraping et data collection','Formation Python pour étudiants','Maintenance et optimisation systèmes'] },
+  { domain:'IA & SaaS', amount:'500k–5M CFA/mois', items:['SaaS d\'analyse de contenu IA','Chatbot IA pour service client','Outil de génération de contenu','API de reconnaissance d\'images','Plateforme de cours en ligne','Outil d\'analyse de CV automatique','Générateur de rapports IA'] },
+  { domain:'Jeux & Divertissement', amount:'100k–500k CFA/mois', items:['Bots pour jeux en ligne (légal)','Apps de paris sportifs data-driven','Générateur de pronostics ML','Dashboard statistiques sportives','Jeux simples en Python/Pygame','Simulations et visualisations','NFT et smart contracts Python'] },
+];
+
+document.getElementById('money-grid').innerHTML = moneyData.map(m => `
+  <div class="money-card">
+    <div class="money-amount">${m.amount}</div>
+    <h3>${m.domain}</h3>
+    <ul>${m.items.map(i => `<li>${i}</li>`).join('')}</ul>
+  </div>
+`).join('');
+
+// TRACKER
+const habits = [
+  { label:'Routine matin', items:['Réveil sans snooze','Hydratation','Mouvement 10 min','Journaling'] },
+  { label:'Python quotidien', items:['1h de code minimum','Exercice ou projet','Commit sur GitHub','Apprendre quelque chose de nouveau'] },
+  { label:'Développement perso', items:['20 min de lecture','Méditation ou intention','Pas de réseaux avant 10h','Tâche prioritaire complétée'] },
+  { label:'Business & Finance', items:['Suivre revenus/dépenses','Action vers un client','Contenu créé ou partagé','Investissement ou épargne'] },
+];
+
+const tg = document.getElementById('tracker-grid');
+tg.innerHTML = habits.map((h, hi) => `
+  <div class="tracker-card">
+    <label>${h.label}</label>
+    ${h.items.map((item, ii) => `
+      <div class="tracker-check">
+        <input type="checkbox" id="h${hi}_${ii}" onchange="updateScore()">
+        <span>${item}</span>
+      </div>
+    `).join('')}
+    <div class="progress-bar"><div class="progress-fill" id="prog${hi}" style="width:0%"></div></div>
+  </div>
+`).join('');
+
+function updateScore() {
+  let total = 0, checked = 0;
+  habits.forEach((h, hi) => {
+    let c = 0;
+    h.items.forEach((_, ii) => {
+      total++;
+      if(document.getElementById(`h${hi}_${ii}`).checked) { checked++; c++; }
+    });
+    document.getElementById(`prog${hi}`).style.width = (c/h.items.length*100)+'%';
+  });
+  document.getElementById('score-display').textContent = Math.round(checked/total*100)+'%';
+}
+
+function resetTracker() {
+  document.querySelectorAll('.tracker-check input').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.progress-fill').forEach(p => p.style.width = '0%');
+  document.getElementById('score-display').textContent = '0%';
+}
+
+let streak = parseInt(localStorage.getItem('streak') || '0');
+document.getElementById('streak').textContent = streak;
+
+function saveStreak() {
+  const score = parseInt(document.getElementById('score-display').textContent);
+  if(score >= 70) {
+    streak++;
+    localStorage.setItem('streak', streak);
+    document.getElementById('streak').textContent = streak;
+    alert('🔥 Journée validée ! Streak : ' + streak + ' jours. Continue comme ça !');
+  } else {
+    alert('Tu dois compléter au moins 70% des habitudes pour valider la journée. Continue !');
+  }
+}
+</script>
+</body>
+</html>
